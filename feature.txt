@@ -1,0 +1,16 @@
+
+Feature a muzzo
+
+BT e WiFi per pairing e connessione al server
+Impostazione del tipo di pianta tramite app tramite nome, tramite plantsnap o tramite profilo (poca, media, tanta).
+Gestione del profilo di irrigazione tramite sensori e pompa
+Warning luce in base al profilo
+Modalità partenza in cui imposto quanto tempo sono fuori casa e lui regima l'apporto di acqua
+Sens. livello acqua da notifica su app se il livello è basso e blocca il motore di irrigazione
+Power a muro
+(molto opinabile e di design) Sens umidità e irrigazione potrebbero avere un sistema tipo map safe per poterli rimuovere x tirar fuori il vaso interno (se presente) x la manutenzione
+Valutare se Cachepot o vaso
+App per funzione di setup, monitoring e warning (luce, acqua, nutrienti)
+Skill alexa per lo stato
+Sens. di temperatura (?)
+Valutare se sens. acqua o galleggiante
