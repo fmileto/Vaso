@@ -1,0 +1,3 @@
+#define SECRET_SSID "The Connective"
+#define SECRET_PASS "th3KK0nn4ctiv3780!"
+#define SECRET_DEVICE_KEY "7QZVF5PYLROKTZ2JBFIR"
