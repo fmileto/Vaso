@@ -1,9 +1,8 @@
-
 // Fill-in information from your Blynk Template here
 #define BLYNK_TEMPLATE_ID "TMPLt08Ysl0r"
 #define BLYNK_DEVICE_NAME "Flaura"
 
-#define BLYNK_FIRMWARE_VERSION "0.1.0"
+#define BLYNK_FIRMWARE_VERSION "0.1.1"
 
 #define BLYNK_PRINT Serial
 //#define BLYNK_DEBUG
@@ -33,7 +32,7 @@ const byte waterLevelPin[] = {13, 14, 27, 26, 25}; // Pins for Sensores in Tank 
 // Config values --> can be changed in the Blynk app
 // RTC Memory values --> these are preserved during deepsleep but lost when reseting or powering off the esp32
 RTC_DATA_ATTR int bootCount = 0;
-RTC_DATA_ATTR int sleepDuration = 2;         // sleep time in minutes REAL: 24
+RTC_DATA_ATTR int sleepDuration = 1;         // sleep time in minutes
 RTC_DATA_ATTR int soilMoistureCritical = 25; // critical soil moisture in % that initiates watering process
 RTC_DATA_ATTR int waterAmount = 20;
 RTC_DATA_ATTR int pumpPowerMin = 150;
@@ -209,6 +208,7 @@ void uploadBlynk()
 
 BLYNK_CONNECTED()
 { // gets called as soon as connection to Blynk server is established
+  Blynk.logEvent("connected");
   if (blynkSyncRequired == true)
   {
     BLYNK_LOG("Synchronisation with Blynk server started");
@@ -229,6 +229,11 @@ BLYNK_CONNECTED()
       Blynk.virtualWrite(V11, 0);                          // upload zero to reset flag on server if it was set
     }
     Blynk.virtualWrite(V100, soilMoisturePercentage);
+    if (soilMoisturePercentage <= soilMoistureCritical)
+    {
+      BLYNK_LOG("Sending dry_soil event");
+      Blynk.logEvent("dry_soil");
+    }
     if (soilMoistureCalibrationAirFlag == 1)
     {
       Blynk.virtualWrite(V5, soilMoistureCalibrationAir);
@@ -505,10 +510,10 @@ void soilMoistureMeasure()
 
 void serialPrintValues()
 {
-  for (int n = 0; n < 10; n++)
-  {
-    BLYNK_LOG("Raw battery level reading %i: %i", n + 1, batteryLevelReading[n]);
-  }
+  // for (int n = 0; n < 10; n++)
+  //{
+  //   BLYNK_LOG("Raw battery level reading %i: %i", n + 1, batteryLevelReading[n]);
+  // }
   BLYNK_LOG("Average battery level reading: %i", batteryLevelAverage);
   BLYNK_LOG("Battery level voltage: %f V", batteryLevelVoltage);
   BLYNK_LOG("Battery level percentage: %i %%", batteryLevelPercentage);
@@ -520,10 +525,10 @@ void serialPrintValues()
     }
   }
   BLYNK_LOG("Water level percentage: %i %%", waterLevelPercentage);
-  for (int n = 0; n < 10; n++)
-  {
-    BLYNK_LOG("Raw soil moisture reading %i: %i", n + 1, soilMoistureReading[n]);
-  }
+  //  for (int n = 0; n < 10; n++)
+  //  {
+  //    BLYNK_LOG("Raw soil moisture reading %i: %i", n + 1, soilMoistureReading[n]);
+  //  }
   BLYNK_LOG("Average soil moisture reading: %i", soilMoistureAverage);
   BLYNK_LOG("Calibrated soil moisture reading: %i", soilMoistureCalibrated);
   BLYNK_LOG("Soil moisture percentage: %i", soilMoisturePercentage);
@@ -636,7 +641,7 @@ void DeepSleep()
   adc_power_off();                                                           // this is needed to reduce power consumption during deep sleep if there is a ext0 wakeup source defined (ext1 would work without this line)
   esp_sleep_enable_ext0_wakeup(GPIO_NUM_0, LOW);                             // wakup after timer runs out or pin gets pulled low by pressing the wakeup-button (GPI0_NUM_PinNumber has to be written this way)
   esp_sleep_enable_timer_wakeup(sleepDuration * secondsToMikroseconds * 60); // set sleep timer (in minutes)
-  BLYNK_LOG("Going to sleep for %i seconds or until hardware button is pressed...", sleepDuration);
+  BLYNK_LOG("Going to sleep for %i minuts or until hardware button is pressed...", sleepDuration);
   esp_deep_sleep_start(); // start deepsleep
 }
 
