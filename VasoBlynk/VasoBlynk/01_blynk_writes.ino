@@ -28,6 +28,7 @@ BLYNK_CONNECTED()
     {
         BLYNK_LOG("Upload of new values to Blynk server started");
         Blynk.virtualWrite(V102, batteryLevelPercentage);
+        Blynk.virtualWrite(V19, batteryLevelVoltage);
         Blynk.virtualWrite(V101, waterLevelPercentage);
         if (waterLevelSensorRawReadingsFlag == 1)
         {
@@ -39,10 +40,21 @@ BLYNK_CONNECTED()
             Blynk.virtualWrite(V11, 0);                          // upload zero to reset flag on server if it was set
         }
         Blynk.virtualWrite(V100, soilMoisturePercentage);
+        Blynk.virtualWrite(V20, soilMoistureAverage);
         if (soilMoisturePercentage <= soilMoistureCritical)
         {
             BLYNK_LOG("Sending dry_soil event");
             Blynk.logEvent("dry_soil");
+        }
+        if (batteryLevelPercentage <= 15)
+        {
+            BLYNK_LOG("Sending low_battery event");
+            Blynk.logEvent("low_battery");
+        }
+        if (waterLevelPercentage <= 10)
+        {
+            BLYNK_LOG("Sending low_water event");
+            Blynk.logEvent("low_water");
         }
         if (soilMoistureCalibrationAirFlag == 1)
         {

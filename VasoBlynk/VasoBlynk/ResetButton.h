@@ -18,7 +18,7 @@ void button_action(void)
 
 void button_change(void)
 {
-  DEBUG_PRINT("BUTTON CHANGE...");
+  // DEBUG_PRINT("BUTTON CHANGE...");
 
 #if BOARD_BUTTON_ACTIVE_LOW
   bool buttonState = !digitalRead(BOARD_BUTTON_PIN);

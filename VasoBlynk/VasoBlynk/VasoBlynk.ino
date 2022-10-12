@@ -84,8 +84,6 @@ int soilMoistureCalibrated = 0;
 int soilMoisturePercentage = 0;
 int pumpActivityFlag = 0;
 
-RTC_DATA_ATTR WidgetRTC rtc; /* Define parameter for RTC Widget */
-
 void setup()
 {
   delay(500); // delay here is required to wake up reliably
@@ -107,7 +105,6 @@ void setup()
 
   timer.setTimeout(120000L, DeepSleep); // Setup DeepSleep function to be called after 120000 second --> go to deep sleep if anything takes to long
   routineState = 1;
-  setSyncInterval(1);
   BLYNK_LOG("Bootcount: %i", bootCount);
 }
 

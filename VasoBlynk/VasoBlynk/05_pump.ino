@@ -85,7 +85,7 @@ void pumpOperation()
             if (pumpPwmDutyCycle < pumpPwmDutyCycleMax && millis() - previousDutyCycleIncreaseTime >= dutyCycleRestTime)
             {                                             // if the maximum duty cycle hasnt been reached and its time for a new increase...
                 previousDutyCycleIncreaseTime = millis(); // reset the duty cyle increase timer to current time
-                BLYNK_LOG("Current pump PWM duty cycle: %i", pumpPwmDutyCycle);
+                // BLYNK_LOG("Current pump PWM duty cycle: %i", pumpPwmDutyCycle);
                 pumpPwmDutyCycle++; // slowly increase the duty cycle
             }
         }
